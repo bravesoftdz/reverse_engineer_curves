@@ -16,7 +16,7 @@ implementation
   var
 
     //frequencies
-    nRed, nGreen, nBlue : array [0..255] of cardinal;
+    nRed, nGreen, nBlue : array [0..255] of Double;
 
   procedure firstNonZero(var a : array of Double);
   var
@@ -77,11 +77,11 @@ implementation
     for i := 0 to 255 do
     begin
        aRed[i] := 0.0;
-       nRed[i] := 0;
+       nRed[i] := 0.0;
        aGreen[i] := 0.0;
-       nGreen[i] := 0;
+       nGreen[i] := 0.0;
        aBlue[i] := 0.0;
-       nBlue[i] := 0;
+       nBlue[i] := 0.0;
     end;
 
      //TODO check that bitmaps should be same size
@@ -95,18 +95,21 @@ implementation
                nColor := bitdataR.GetPixel(x, y);
                RedR := TAlphaColorRec(nColor).R;
                RedL := TAlphaColorRec(aColor).R;
-               aRed[RedR] := aRed[RedR] +  RedL;
-               inc(nRed[RedR]);
+               aRed[RedL] := aRed[RedL] +  RedR;
+               //inc(nRed[RedR]);
+               nRed[RedL] := nRed[RedL] + 1.0;
 
                GreenR := TAlphaColorRec(nColor).G;
                GreenL := TAlphaColorRec(aColor).G;
-               aGreen[GreenR] := aGreen[GreenR] +  GreenL;
-               inc(nGreen[GreenR]);
+               aGreen[GreenL] := aGreen[GreenL] +  GreenR;
+               //inc(nGreen[GreenR]);
+               nGreen[GreenL] := nGreen[GreenL] + 1.0;
 
                BlueR := TAlphaColorRec(nColor).B;
                BlueL := TAlphaColorRec(aColor).B;
-               aBlue[BlueR] := aBlue[BlueR] +  BlueL;
-               inc(nBlue[BlueR]);
+               aBlue[BlueL] := aBlue[BlueL] +  BlueR;
+               //inc(nBlue[BlueR]);
+               nBlue[BlueL] := nBlue[BlueL] + 1.0;
           end;
         end;
 
@@ -114,17 +117,17 @@ implementation
         begin
           if nRed[i] <> 0 then
           begin
-            aRed[i] := aRed[i] / 255.0 * nRed[i];
+            aRed[i] := aRed[i] / (255.0 * nRed[i]);
           end;
           if aRed[i] > 1.0 then begin aRed[i] := 1.0 end;
           if nGreen[i] <> 0 then
           begin
-            aGreen[i] := aGreen[i] / 255.0 * nGreen[i];
+            aGreen[i] := aGreen[i] / (255.0 * nGreen[i]);
           end;
           if aGreen[i] > 1.0 then begin aGreen[i] := 1.0 end;
           if nBlue[i] <> 0 then
           begin
-            aBlue[i] := aBlue[i] / 255.0 * nBlue[i]
+            aBlue[i] := aBlue[i] / (255.0 * nBlue[i])
           end;
           if aBlue[i] > 1.0 then begin aBlue[i] := 1.0 end;
         end;
