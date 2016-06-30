@@ -3,6 +3,10 @@ unit analyser;
 interface
 
 uses System.SysUtils, FMX.Graphics;
+ var
+
+    //sums of values first, then curve values
+    aRed, aGreen, aBlue: array [0..255] of Double;
 
   procedure analyse(ABitmapL, ABitmapR: TBitmap);
 
@@ -10,8 +14,7 @@ implementation
   uses System.UITypes;
 
   var
-     //sums of values
-    aRed, aGreen, aBlue: array [0..255] of Double;
+
     //frequencies
     nRed, nGreen, nBlue : array [0..255] of cardinal;
 
